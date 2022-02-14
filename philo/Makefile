@@ -1,6 +1,6 @@
 NAME		:=	philo
 
-CC			:=	clang -Wall -Werror -Wextra -g
+CC			:=	clang -g
 FLAGS		:=	-Llibft -lft
 
 DIR_SRCS	:=	srcs
