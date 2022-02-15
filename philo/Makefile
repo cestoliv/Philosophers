@@ -1,6 +1,6 @@
 NAME		:=	philo
 
-CC			:=	clang -g
+CC			:=	clang -g -fsanitize=address
 FLAGS		:=	-Llibft -lft
 
 DIR_SRCS	:=	srcs
