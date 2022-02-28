@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:34 by ocartier          #+#    #+#             */
-/*   Updated: 2022/02/15 11:17:49 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/02/28 08:47:51 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ typedef struct s_fork
 typedef struct s_phil
 {
 	pthread_t	thread;
+	pthread_t	death_thread;
 	int			pos;
 	int			state;
 	long		last_meal;
+	pthread_mutex_t	last_meal_mutex;
 	long		last_action;
 	t_fork		*r_fork;
 	int			r_taken;

@@ -1,7 +1,7 @@
 NAME		:=	philo
 
-CC			:=	clang -g -fsanitize=address
-FLAGS		:=	-Llibft -lft
+CC			:=	clang -g -fsanitize=thread
+FLAGS		:=	-lpthread -Llibft -lft
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs
