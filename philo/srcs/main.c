@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:42 by ocartier          #+#    #+#             */
-/*   Updated: 2022/02/28 10:00:44 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:54:42 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,18 +143,10 @@ void *check_philos_death(void *arg)
 void	*philo_life(void *arg)
 {
 	t_phil		*phil;
-	int			cur_time;
-	pthread_t	death_thread;
 
 	phil = (t_phil *)arg;
 
-	//phil->state = PHILO_THINK;
-	phil->r_taken = 0;
-	phil->l_taken = 0;
-	//pthread_mutex_lock(&(phil->last_meal_mutex));
-
-	//pthread_mutex_unlock(&(phil->last_meal_mutex));
-	//pthread_create(&(phil->death_thread), NULL, check_philo_death, phil);
+	//write_state("yop", phil);
 
 	if (phil->pos % 2 != 0)
 		ft_usleep(phil->params->time_to_eat);
@@ -162,34 +154,11 @@ void	*philo_life(void *arg)
 	while (1)
 	{
 		// Take forks
-		/*
-		pthread_mutex_lock(&(phil->l_fork->lock));
-		write_state("has taken a fork", phil);
-		pthread_mutex_lock(&(phil->r_fork->lock));
-		write_state("has taken a fork", phil);
-		*/
-
-		/*
-		if (phil->pos % 2)
-		{
-			take_fork('r', phil);
-			if (phil->r_taken)
-				take_fork('l', phil);
-		}
-		else
-		{
-			ft_printf("l%d  ", phil->last_meal);
-			take_fork('l', phil);
-			if (phil->l_taken)
-				take_fork('r', phil);
-		}
-		*/
 		take_fork('l', phil);
 		if (phil->l_taken)
 			take_fork('r', phil);
 		if (phil->r_taken && phil->l_taken)
 		{
-			//ft_printf("t");
 			// Eat
 			write_state("is eating", phil);
 			ft_usleep(phil->params->time_to_eat);
@@ -197,82 +166,14 @@ void	*philo_life(void *arg)
 			phil->last_meal = get_timestamp() - phil->params->start_time;
 			pthread_mutex_unlock(&(phil->last_meal_mutex));
 			// Release forks
-			//pthread_mutex_unlock(&(phil->l_fork->lock));
-			//pthread_mutex_unlock(&(phil->r_fork->lock));
-				//release_fork('l', phil);
-				//release_fork('r', phil);
 			release_fork('r', phil);
 			release_fork('l', phil);
-
 			// Sleep
 			write_state("is sleeping", phil);
 			ft_usleep(phil->params->time_to_sleep);
 		}
-/*
-		if ((get_timestamp() - phil->params->start_time) - phil->last_meal > phil->params->time_to_die)
-		{
-			write_state("died", phil);
-			exit(EXIT_FAILURE);
-		}
-
-		*/
 		ft_usleep(5);
-		/*
-		if (phil->state == PHILO_THINK)
-		{
-
-			if (phil->pos % 2)
-			{
-				take_fork('r', phil, cur_time);
-				if (phil->r_taken)
-					take_fork('l', phil, cur_time);
-			}
-			else
-			{
-
-				take_fork('l', phil, cur_time);
-				if (phil->l_taken)
-					take_fork('r', phil, cur_time);
-			}
-			if (phil->r_taken && phil->l_taken)
-			{
-				phil->state = PHILO_EAT;
-				phil->last_action = cur_time;
-				pthread_mutex_lock(&(phil->params->console_mutex));
-				ft_printf("%d %d is eating\n", cur_time, phil->pos);
-				pthread_mutex_unlock(&(phil->params->console_mutex));
-			}
-		}
-
-		if (phil->state == PHILO_EAT)
-		{
-			ft_usleep(phil->params->time_to_eat);
-			cur_time = get_timestamp() - phil->params->start_time;
-			phil->state = PHILO_SLEEP;
-			phil->last_action = cur_time;
-			pthread_mutex_lock(&(phil->last_meal_mutex));
-			phil->last_meal = cur_time;
-			pthread_mutex_unlock(&(phil->last_meal_mutex));
-			release_fork('r', phil);
-			release_fork('l', phil);
-			pthread_mutex_lock(&(phil->params->console_mutex));
-			ft_printf("%d %d is sleeping\n", cur_time, phil->pos);
-			pthread_mutex_unlock(&(phil->params->console_mutex));
-		}
-
-		if (phil->state == PHILO_SLEEP)
-		{
-			ft_usleep(phil->params->time_to_sleep);
-			cur_time = get_timestamp() - phil->params->start_time;
-			phil->state = PHILO_THINK;
-			phil->last_action = cur_time;
-			pthread_mutex_lock(&(phil->params->console_mutex));
-			ft_printf("%d %d is thinking\n", cur_time, phil->pos);
-			pthread_mutex_unlock(&(phil->params->console_mutex));
-		}
-		*/
 	}
-	//pthread_detach(phil->death_thread);
 	return (arg);
 }
 
@@ -296,6 +197,8 @@ int	create_philos(t_phil **philos, t_fork **forks, t_params	*params)
 		(*philos)[cur].pos = cur;
 		(*philos)[cur].last_meal = 0;
 		(*philos)[cur].r_fork = &((*forks)[cur]);
+		(*philos)[cur].r_taken = 0;
+		(*philos)[cur].l_taken = 0;
 		if (cur == params->num - 1)
 			(*philos)[cur].l_fork = &((*forks)[0]);
 		else
