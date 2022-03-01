@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:34 by ocartier          #+#    #+#             */
-/*   Updated: 2022/02/28 08:47:51 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/01 12:30:47 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,8 @@
 # include <pthread.h>
 # include <time.h>
 # include <sys/time.h>
+# include <stdio.h>
 # include "../libft/include/libft.h"
-
-# define FORK_CLEAR 0
-# define FORK_DIRTY 1
-# define PHILO_EAT 0
-# define PHILO_SLEEP 1
-# define PHILO_THINK 2
-# define PHILO_WAIT_FORK 3
 
 typedef struct s_params
 {
@@ -32,28 +26,42 @@ typedef struct s_params
 	int				time_to_sleep;
 	long			start_time;
 	pthread_mutex_t	console_mutex;
+	int				is_dead;
+	pthread_mutex_t	m_is_dead;
+	pthread_t		death_thread;
 }	t_params;
 
 typedef struct s_fork
 {
-	int	state;
-	int	used;
+	int				used;
 	pthread_mutex_t	lock;
 }	t_fork;
 
 typedef struct s_phil
 {
-	pthread_t	thread;
-	pthread_t	death_thread;
-	int			pos;
-	int			state;
-	long		last_meal;
-	pthread_mutex_t	last_meal_mutex;
-	long		last_action;
-	t_fork		*r_fork;
-	int			r_taken;
-	t_fork		*l_fork;
-	int			l_taken;
-	t_params	*params;
+	pthread_t		thread;
+	int				pos;
+	long			last_meal;
+	pthread_mutex_t	m_last_meal;
+	t_fork			*r_fork;
+	int				r_taken;
+	t_fork			*l_fork;
+	int				l_taken;
+	t_params		*params;
 }	t_phil;
+
+// death.c
+int		is_dead(t_phil *phil);
+void	*check_philos_death(void *arg);
+// forks.c
+void	take_fork(char fork_name, t_phil *phil);
+void	release_fork(char fork_name, t_phil *phil);
+// init.c
+int		create_philos(t_phil **philos, t_fork **forks, t_params	*params);
+int		init_params(t_params *params, char **argv);
+// utils.c
+void	ft_usleep(long int time_in_ms);
+void	write_state(char *str, t_phil *phil);
+long	get_timestamp(void);
+long	get_timestamp_ms(void);
 #endif

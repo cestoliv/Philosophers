@@ -1,13 +1,18 @@
 NAME		:=	philo
 
-CC			:=	clang -g -fsanitize=thread
+CC			:=	clang
+DEBUG_FLAGS	:=	-g -fsanitize=thread
 FLAGS		:=	-lpthread -Llibft -lft
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs
 DIR_INCS	:=	include
 
-LST_SRCS	:=	main.c
+LST_SRCS	:=	death.c \
+				forks.c \
+				init.c \
+				main.c \
+				utils.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
 LST_INCS	:=	philosophers.h
 

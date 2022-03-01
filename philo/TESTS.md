@@ -1,6 +1,7 @@
 - `./philo 3 500 200 400`	=> one death at 500 ms
 - `./philo 4 200 210 200`	=> one death at 200 ms
 - `./philo 4 311 150 150`	=> infinite
+- `./philo 4 311 150 162`	=> one death at 
 
 - `./philo 1 100 50 50`		=> one death at 100 ms
 - `./philo 2 100 50 50`		=> infinite
