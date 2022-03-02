@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:36:33 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/01 12:34:12 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/02 10:20:23 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,15 @@ void	*check_philos_death(void *arg)
 		cur_time = get_timestamp() - params->start_time;
 		while (cur < params->num)
 		{
+			pthread_mutex_lock(&(params->m_num_shaved));
+			if (params->num_shaved >= params->num)
+				return (NULL);
+			pthread_mutex_unlock(&(params->m_num_shaved));
 			if (check_philo_death(&(*philos)[cur], cur_time))
-			{
-				//exit(EXIT_FAILURE);
-				return (arg);
-			}
+				return (NULL);
 			cur++;
 		}
 		ft_usleep(1);
 	}
-	return (arg);
+	return (NULL);
 }

@@ -1,7 +1,7 @@
 NAME		:=	philo
 
-CC			:=	clang
-DEBUG_FLAGS	:=	-g -fsanitize=thread
+CC			:=	gcc -Wall -Wextra -Werror
+DEBUG_FLAGS	:=	-g -fsanitize=address
 FLAGS		:=	-lpthread -Llibft -lft
 
 DIR_SRCS	:=	srcs
