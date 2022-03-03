@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:37:44 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/01 10:56:16 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:14:52 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,12 @@ void	release_fork(char fork_name, t_phil *phil)
 	*taken = 0;
 	fork->used = 0;
 	pthread_mutex_unlock(&(fork->lock));
+}
+
+void	release_forks_and_sleep(t_phil *phil)
+{
+	release_fork('r', phil);
+	release_fork('l', phil);
+	write_state("is sleeping", phil);
+	ft_usleep(phil->params->time_to_sleep);
 }

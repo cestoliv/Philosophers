@@ -2,7 +2,7 @@ NAME		:=	philo
 
 CC			:=	gcc -Wall -Wextra -Werror
 DEBUG_FLAGS	:=	-g -fsanitize=thread
-FLAGS		:=	-lpthread -Llibft -lft $(DEBUG_FLAGS)
+FLAGS		:=	-lpthread -Llibft -lft
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs
@@ -12,6 +12,7 @@ LST_SRCS	:=	death.c \
 				forks.c \
 				init.c \
 				main.c \
+				threads.c \
 				utils.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
 LST_INCS	:=	philosophers.h
