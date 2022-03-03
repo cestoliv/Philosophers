@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:39:17 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/02 10:19:27 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/03 09:07:57 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,11 @@ void	write_state(char *str, t_phil *phil)
 {
 	long	cur_time;
 
+	cur_time = get_timestamp_ms() - phil->params->start_time / 1000;
+	pthread_mutex_lock(&(phil->params->console_mutex));
 	if (!is_dead(phil))
-	{
-		cur_time = get_timestamp_ms() - phil->params->start_time / 1000;
-		pthread_mutex_lock(&(phil->params->console_mutex));
 		printf("%09ld %d %s\n", cur_time, phil->pos, str);
-		pthread_mutex_unlock(&(phil->params->console_mutex));
-	}
+	pthread_mutex_unlock(&(phil->params->console_mutex));
 }
 
 long	get_timestamp_ms(void)
