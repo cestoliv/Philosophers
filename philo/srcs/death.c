@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:36:33 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/02 10:20:23 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/03 09:50:33 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ int	is_dead(t_phil *phil)
 	return (alive);
 }
 
+int	stop_threads(t_phil *phil)
+{
+	pthread_mutex_lock(&(phil->params->m_is_dead));
+	phil->params->is_dead = 1;
+	pthread_mutex_unlock(&(phil->params->m_is_dead));
+	pthread_mutex_lock(&(phil->params->m_num_shaved));
+	phil->params->num_shaved = phil->params->num;
+	pthread_mutex_unlock(&(phil->params->m_num_shaved));
+	return (EXIT_FAILURE);
+}
+
 int	check_philo_death(t_phil *phil, long cur_time)
 {
 	int	dead;
@@ -31,13 +42,13 @@ int	check_philo_death(t_phil *phil, long cur_time)
 	pthread_mutex_lock(&(phil->m_last_meal));
 	last_meal = cur_time - phil->last_meal;
 	pthread_mutex_unlock(&(phil->m_last_meal));
-	if (last_meal > phil->params->time_to_die * 1000)
+	if (last_meal > phil->params->time_to_die)
 	{
 		pthread_mutex_lock(&(phil->params->console_mutex));
 		pthread_mutex_lock(&(phil->params->m_is_dead));
 		phil->params->is_dead = 1;
 		pthread_mutex_unlock(&(phil->params->m_is_dead));
-		printf("%09ld %d died\n", cur_time / 1000, phil->pos);
+		printf("%09ld %d died\n", cur_time, phil->pos);
 		pthread_mutex_unlock(&(phil->params->console_mutex));
 		dead = 1;
 	}

@@ -2,7 +2,7 @@ NAME		:=	philo
 
 CC			:=	gcc -Wall -Wextra -Werror
 DEBUG_FLAGS	:=	-g -fsanitize=thread
-FLAGS		:=	-lpthread -Llibft -lft
+FLAGS		:=	-lpthread -Llibft -lft $(DEBUG_FLAGS)
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs

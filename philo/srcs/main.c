@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:42 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/02 10:14:58 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:03:37 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,48 +48,28 @@ void	*philo_life(void *arg)
 	return (NULL);
 }
 
+int	free_all(t_phil*philos, t_fork *forks, int exit_code)
+{
+	free(philos);
+	free(forks);
+	return (exit_code);
+}
+
 int	main(int argc, char **argv)
 {
 	t_params	params;
 	t_phil		*philos;
 	t_fork		*forks;
-	int			cur;
+	int			return_code;
 
+	return_code = EXIT_SUCCESS;
 	if (!init_params(&params, argc, argv))
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (!create_philos(&philos, &forks, &params))
-		exit(EXIT_FAILURE);
-	params.start_time = get_timestamp();
-	cur = 0;
-	while (cur < params.num)
-	{
-		pthread_create(&(philos[cur].thread), NULL, philo_life, &(philos[cur]));
-		//pthread_detach(philos[cur].thread);
-		cur++;
-	}
-	pthread_create(&(params.death_thread), NULL, check_philos_death, &philos);
-	//pthread_detach(params.death_thread);
-	cur = 0;
-	while (cur < params.num)
-	{
-		pthread_join(philos[cur].thread, NULL);
-		cur++;
-	}
-	pthread_join(params.death_thread, NULL);
-
-/*
-	pthread_mutex_destroy(&(params.console_mutex));
-	pthread_mutex_destroy(&(params.m_is_dead));
-	pthread_mutex_destroy(&(params.m_num_shaved));
-	cur = 0;
-	while (cur < params.num)
-	{
-		pthread_mutex_destroy(&(philos[cur].m_last_meal));
-		pthread_mutex_destroy(&(forks[cur].lock));
-		cur++;
-	}
-	*/
-	free(philos);
-	free(forks);
-
+		return (EXIT_FAILURE);
+	if (!create_threads(&philos, &params))
+		return_code = stop_threads(&philos[0]);
+	if (!wait_threads(&philos, &params))
+		return (free_all(philos, forks, EXIT_FAILURE));
+	return (free_all(philos, forks, return_code));
 }
