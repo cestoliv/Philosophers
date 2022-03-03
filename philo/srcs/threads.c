@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/03 10:15:29 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/03 15:25:23 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ int	wait_threads(t_phil **philos, t_params *params)
 
 int	is_shaved(t_phil *phil)
 {
-	if (phil->params->meal_max > 0 && phil->meal_count > phil->params->meal_max)
+	int	meal_max;
+
+	meal_max = phil->params->meal_max;
+	if ((meal_max > 0 && phil->meal_count > meal_max) || meal_max == 0)
 	{
 		pthread_mutex_lock(&(phil->params->m_num_shaved));
 		phil->params->num_shaved++;
