@@ -2,7 +2,7 @@ NAME		:=	philo_bonus
 
 CC			:=	gcc -Wall -Wextra -Werror
 DEBUG_FLAGS	:=	-g -fsanitize=address
-FLAGS		:=	-lpthread -Llibft -lft $(DEBUG_FLAGS)
+FLAGS		:=	-lpthread -Llibft -lft
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs

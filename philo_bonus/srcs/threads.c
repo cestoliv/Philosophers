@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/04 08:43:15 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/04 15:12:30 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@ int	create_threads(t_phil **philos, t_params *params)
 	cur = 0;
 	while (cur < params->num)
 	{
-		if (pthread_create(&((*philos)[cur].thread), NULL,
-			philo_life, &((*philos)[cur])))
-			return (0);
-		cur++;
+		(*philos)[cur].pid = fork();
+		if ((*philos)[cur].pid == 0)
+		{
+			philo_life(&((*philos)[cur]));
+			exit(EXIT_SUCCESS);
+		}
+		else
+			cur++;
 	}
 	if (pthread_create(&(params->death_thread), NULL,
 			check_philos_death, philos))
@@ -35,12 +39,13 @@ int	wait_threads(t_phil **philos, t_params *params)
 {
 	int	cur;
 	int	return_code;
+	int	fstatus;
 
 	cur = 0;
 	return_code = 1;
 	while (cur < params->num)
 	{
-		if (pthread_join((*philos)[cur].thread, NULL))
+		if (waitpid((*philos)[cur].pid, &fstatus, WUNTRACED | WCONTINUED) == -1)
 			return_code = 0;
 		cur++;
 	}
@@ -76,6 +81,8 @@ void	*philo_life(void *arg)
 		if (is_shaved(phil))
 			break ;
 		take_fork('l', phil);
+		if (phil->params->num <= 1)
+			break ;
 		if (phil->l_taken)
 			take_fork('r', phil);
 		if (phil->r_taken && phil->l_taken)

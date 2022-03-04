@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:34 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/04 08:52:42 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/04 14:41:41 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_params
 
 typedef struct s_phil
 {
-	pthread_t		thread;
+	pid_t			pid;
 	int				pos;
 	long			last_meal;
 	pthread_mutex_t	m_last_meal;
