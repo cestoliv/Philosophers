@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:38:23 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/04 08:52:31 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 11:05:11 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,20 @@
 
 void	init_philo(t_phil *phil, t_params *params, int cur)
 {
+	char	*pos_str;
+	char	*sem_name;
+
 	phil->params = params;
 	phil->pos = cur;
 	phil->last_meal = 0;
 	phil->meal_count = 0;
-	phil->r_taken = 0;
-	phil->l_taken = 0;
-	pthread_mutex_init(&(phil->m_last_meal), NULL);
+	pos_str = ft_itoa(phil->pos);
+	sem_name = ft_strjoin("/sem_last_meal", pos_str);
+	sem_unlink(sem_name);
+	phil->sem_last_meal = sem_open(sem_name, O_CREAT, 0644, 1);
+	sem_unlink(sem_name);
+	free(pos_str);
+	free(sem_name);
 }
 
 int	create_philos(t_phil **philos, t_params	*params)
@@ -64,10 +71,16 @@ int	init_params(t_params *params, int argc, char **argv)
 		|| params->time_to_sleep < 0)
 		return (0);
 	sem_unlink("/sem_forks");
+	sem_unlink("/sem_console");
+	sem_unlink("/sem_num_shaved");
+	sem_unlink("/sem_is_dead");
 	params->sem_forks = sem_open("/sem_forks", O_CREAT, 0644, params->num);
+	params->sem_console = sem_open("/sem_console", O_CREAT, 0644, 1);
+	params->sem_num_shaved = sem_open("/sem_num_shaved", O_CREAT, 0644, 1);
+	params->sem_is_dead = sem_open("/sem_is_dead", O_CREAT, 0644, 1);
 	sem_unlink("/sem_forks");
-	pthread_mutex_init(&(params->console_mutex), NULL);
-	pthread_mutex_init(&(params->m_is_dead), NULL);
-	pthread_mutex_init(&(params->m_num_shaved), NULL);
+	sem_unlink("/sem_console");
+	sem_unlink("/sem_num_shaved");
+	sem_unlink("/sem_is_dead");
 	return (1);
 }

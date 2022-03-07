@@ -1,8 +1,8 @@
 NAME		:=	philo_bonus
 
-CC			:=	gcc -Wall -Wextra -Werror
-DEBUG_FLAGS	:=	-g -fsanitize=address
-FLAGS		:=	-lpthread -Llibft -lft
+CC			:=	clang -Wall -Wextra -Werror
+DEBUG_FLAGS	:=	-g -fsanitize=thread
+FLAGS		:=	-lpthread -Llibft -lft $(DEBUG_FLAGS)
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs

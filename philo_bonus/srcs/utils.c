@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:39:17 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/03 09:26:22 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/05 12:26:29 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	write_state(char *str, t_phil *phil)
 	long	cur_time;
 
 	cur_time = get_timestamp() - phil->params->start_time;
-	pthread_mutex_lock(&(phil->params->console_mutex));
+	sem_wait(phil->params->sem_console);
 	if (!is_dead(phil))
 		printf("%09ld %d %s\n", cur_time, phil->pos, str);
-	pthread_mutex_unlock(&(phil->params->console_mutex));
+	sem_post(phil->params->sem_console);
 }
 
 long	get_timestamp(void)

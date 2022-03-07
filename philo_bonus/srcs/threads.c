@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/04 15:12:30 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 11:59:01 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,8 @@ int	create_threads(t_phil **philos, t_params *params)
 	{
 		(*philos)[cur].pid = fork();
 		if ((*philos)[cur].pid == 0)
-		{
-			philo_life(&((*philos)[cur]));
-			exit(EXIT_SUCCESS);
-		}
-		else
-			cur++;
+			return (philo_life(&(*philos)[cur]));
+		cur++;
 	}
 	if (pthread_create(&(params->death_thread), NULL,
 			check_philos_death, philos))
@@ -45,7 +41,7 @@ int	wait_threads(t_phil **philos, t_params *params)
 	return_code = 1;
 	while (cur < params->num)
 	{
-		if (waitpid((*philos)[cur].pid, &fstatus, WUNTRACED | WCONTINUED) == -1)
+		if (waitpid((*philos)[cur].pid, &fstatus, 0) == -1)
 			return_code = 0;
 		cur++;
 	}
@@ -61,40 +57,40 @@ int	is_shaved(t_phil *phil)
 	meal_max = phil->params->meal_max;
 	if ((meal_max > 0 && phil->meal_count > meal_max) || meal_max == 0)
 	{
-		pthread_mutex_lock(&(phil->params->m_num_shaved));
+		sem_wait(phil->params->sem_num_shaved);
 		phil->params->num_shaved++;
-		pthread_mutex_unlock(&(phil->params->m_num_shaved));
+		sem_post(phil->params->sem_num_shaved);
 		return (1);
 	}
 	return (0);
 }
 
-void	*philo_life(void *arg)
+int	philo_life(t_phil *phil)
 {
-	t_phil		*phil;
-
-	phil = (t_phil *)arg;
+	while (!is_dead(phil))
+	{
+		//printf("%d \n", phil->pos);
+		ft_usleep(phil->params->time_to_eat * 4);
+	}
+	/*
 	if (phil->pos % 2 != 0)
 		ft_usleep(phil->params->time_to_eat);
 	while (!is_dead(phil))
 	{
 		if (is_shaved(phil))
 			break ;
-		take_fork('l', phil);
+		take_fork(phil);
 		if (phil->params->num <= 1)
 			break ;
-		if (phil->l_taken)
-			take_fork('r', phil);
-		if (phil->r_taken && phil->l_taken)
-		{
-			write_state("is eating", phil);
-			ft_usleep(phil->params->time_to_eat);
-			phil->meal_count++;
-			pthread_mutex_lock(&(phil->m_last_meal));
-			phil->last_meal = get_timestamp() - phil->params->start_time;
-			pthread_mutex_unlock(&(phil->m_last_meal));
-			release_forks_and_sleep(phil);
-		}
+		take_fork(phil);
+		write_state("is eating", phil);
+		ft_usleep(phil->params->time_to_eat);
+		phil->meal_count++;
+		sem_wait(phil->sem_last_meal);
+		phil->last_meal = get_timestamp() - phil->params->start_time;
+		sem_post(phil->sem_last_meal);
+		release_forks_and_sleep(phil);
 	}
-	return (NULL);
+	*/
+	return (1);
 }
