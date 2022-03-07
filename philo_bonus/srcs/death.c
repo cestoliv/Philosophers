@@ -6,30 +6,19 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:36:33 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 12:08:00 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:13:19 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-int	is_dead(t_phil *phil)
+int	stop_threads(t_phil **philos, t_params *params)
 {
-	int		alive;
+	int	cur;
 
-	sem_wait(phil->params->sem_is_dead);
-	alive = phil->params->is_dead;
-	sem_post(phil->params->sem_is_dead);
-	return (alive);
-}
-
-int	stop_threads(t_phil *phil)
-{
-	sem_wait(phil->params->sem_is_dead);
-	phil->params->is_dead = 1;
-	sem_post(phil->params->sem_is_dead);
-	sem_wait(phil->params->sem_num_shaved);
-	phil->params->num_shaved = phil->params->num;
-	sem_post(phil->params->sem_num_shaved);
+	cur = 0;
+	while (cur < params->num)
+		kill((*philos)[cur++].pid, SIGTERM);
 	return (EXIT_FAILURE);
 }
 
@@ -45,9 +34,6 @@ int	check_philo_death(t_phil *phil, long cur_time)
 	if (last_meal > phil->params->time_to_die)
 	{
 		sem_wait(phil->params->sem_console);
-		sem_wait(phil->params->sem_is_dead);
-		phil->params->is_dead = 1;
-		sem_post(phil->params->sem_is_dead);
 		printf("%09ld %d died\n", cur_time, phil->pos);
 		sem_post(phil->params->sem_console);
 		dead = 1;
@@ -72,13 +58,7 @@ void	*check_philos_death(void *arg)
 		{
 			if (check_philo_death(&(*philos)[cur], cur_time))
 			{
-				cur = 0;
-				while (cur < params->num)
-				{
-					printf("%d\n", (*philos)[cur].pid);
-					kill(philos[cur]->pid, SIGTERM);
-					cur++;
-				}
+				stop_threads(philos, params);
 				return (NULL);
 			}
 			cur++;

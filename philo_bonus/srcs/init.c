@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:38:23 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 11:05:11 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:10:51 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	init_params(t_params *params, int argc, char **argv)
 		if (ft_atoi(argv[5]) < 0)
 			return (0);
 	}
-	params->is_dead = 0;
 	params->num_shaved = 0;
 	if (params->num <= 0 || params->time_to_die < 0 || params->time_to_eat < 0
 		|| params->time_to_sleep < 0)
@@ -73,14 +72,11 @@ int	init_params(t_params *params, int argc, char **argv)
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_console");
 	sem_unlink("/sem_num_shaved");
-	sem_unlink("/sem_is_dead");
 	params->sem_forks = sem_open("/sem_forks", O_CREAT, 0644, params->num);
 	params->sem_console = sem_open("/sem_console", O_CREAT, 0644, 1);
 	params->sem_num_shaved = sem_open("/sem_num_shaved", O_CREAT, 0644, 1);
-	params->sem_is_dead = sem_open("/sem_is_dead", O_CREAT, 0644, 1);
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_console");
 	sem_unlink("/sem_num_shaved");
-	sem_unlink("/sem_is_dead");
 	return (1);
 }

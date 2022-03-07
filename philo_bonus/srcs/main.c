@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:42 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 12:03:24 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:13:35 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	if (!create_philos(&philos, &params))
 		return (EXIT_FAILURE);
 	if (!create_threads(&philos, &params))
-		return_code = stop_threads(&philos[0]);
+		return_code = stop_threads(&philos, &params);
 	if (!wait_threads(&philos, &params))
 		return (free_all(philos, EXIT_FAILURE));
 	return (free_all(philos, return_code));

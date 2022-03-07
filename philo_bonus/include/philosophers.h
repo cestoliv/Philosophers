@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:34 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 11:46:29 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:13:44 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ typedef struct s_params
 	sem_t		*sem_console;
 	int			num_shaved;
 	sem_t		*sem_num_shaved;
-	int			is_dead;
-	sem_t		*sem_is_dead;
 	sem_t		*sem_forks;
 }	t_params;
 
@@ -49,9 +47,8 @@ typedef struct s_phil
 }	t_phil;
 
 // death.c
-int		is_dead(t_phil *phil);
 void	*check_philos_death(void *arg);
-int		stop_threads(t_phil *phil);
+int		stop_threads(t_phil **philos, t_params *params);
 // forks.c
 void	take_fork(t_phil *phil);
 void	release_forks_and_sleep(t_phil *phil);

@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 11:59:01 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:08:03 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,9 @@ int	is_shaved(t_phil *phil)
 
 int	philo_life(t_phil *phil)
 {
-	while (!is_dead(phil))
-	{
-		//printf("%d \n", phil->pos);
-		ft_usleep(phil->params->time_to_eat * 4);
-	}
-	/*
 	if (phil->pos % 2 != 0)
 		ft_usleep(phil->params->time_to_eat);
-	while (!is_dead(phil))
+	while (1)
 	{
 		if (is_shaved(phil))
 			break ;
@@ -91,6 +85,5 @@ int	philo_life(t_phil *phil)
 		sem_post(phil->sem_last_meal);
 		release_forks_and_sleep(phil);
 	}
-	*/
 	return (1);
 }
