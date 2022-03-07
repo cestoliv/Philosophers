@@ -1,6 +1,6 @@
 NAME		:=	philo
 
-CC			:=	gcc -Wall -Wextra -Werror
+CC			:=	clang -Wall -Wextra -Werror
 DEBUG_FLAGS	:=	-g -fsanitize=thread
 FLAGS		:=	-lpthread -Llibft -lft
 
