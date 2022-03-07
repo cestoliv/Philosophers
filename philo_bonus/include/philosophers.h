@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:34 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 15:13:44 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:48:09 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_params
 	int			num_shaved;
 	sem_t		*sem_num_shaved;
 	sem_t		*sem_forks;
+	sem_t		*finished;
 }	t_params;
 
 typedef struct s_phil

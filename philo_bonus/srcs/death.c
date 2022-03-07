@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:36:33 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 15:30:09 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:52:15 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ int	check_philo_death(t_phil *phil, long cur_time)
 
 void	*check_philos_death(void *arg)
 {
+	t_phil		**philos;
+	t_params	*params;
+
+	philos = (t_phil **)arg;
+	params = philos[0]->params;
+
+	sem_wait(params->finished);
+	printf("thee end");
+	stop_threads(philos, params);
+	/*
 	t_params	*params;
 	t_phil		**philos;
 	long		cur_time;
@@ -64,5 +74,6 @@ void	*check_philos_death(void *arg)
 		}
 		ft_usleep(1);
 	}
+	*/
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:38:23 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 15:10:51 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:52:40 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,15 @@ int	init_params(t_params *params, int argc, char **argv)
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_console");
 	sem_unlink("/sem_num_shaved");
+	sem_unlink("/finished");
 	params->sem_forks = sem_open("/sem_forks", O_CREAT, 0644, params->num);
 	params->sem_console = sem_open("/sem_console", O_CREAT, 0644, 1);
 	params->sem_num_shaved = sem_open("/sem_num_shaved", O_CREAT, 0644, 1);
+	params->finished = sem_open("/finished", O_CREAT, 0644, 1);
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_console");
 	sem_unlink("/sem_num_shaved");
+	sem_unlink("/finished");
+	sem_wait(params->finished);
 	return (1);
 }

@@ -2,7 +2,7 @@ NAME		:=	philo_bonus
 
 CC			:=	clang -Wall -Wextra -Werror
 DEBUG_FLAGS	:=	-g -fsanitize=thread
-FLAGS		:=	-lpthread -Llibft -lft $(DEBUG_FLAGS)
+FLAGS		:=	-lpthread -Llibft -lft
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs

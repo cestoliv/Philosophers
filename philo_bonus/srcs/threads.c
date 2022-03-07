@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 15:29:24 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:53:55 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ int	wait_threads(t_phil **philos, t_params *params)
 			return_code = 0;
 		cur++;
 	}
+	/*
 	if (pthread_join(params->death_thread, NULL))
 		return_code = 0;
+		*/
 	return (return_code);
 }
 
@@ -65,8 +67,37 @@ int	is_shaved(t_phil *phil)
 	return (0);
 }
 
+void	*check_death(void *arg)
+{
+	t_phil		*phil;
+	t_params	*params;
+	long		cur_time;
+	int			last_meal;
+
+	phil = (t_phil *)arg;
+	params = phil->params;
+	while (1)
+	{
+		cur_time = get_timestamp() - params->start_time;
+		sem_wait(phil->sem_last_meal);
+		last_meal = cur_time - phil->last_meal;
+		sem_post(phil->sem_last_meal);
+		if (last_meal > phil->params->time_to_die)
+		{
+			sem_wait(phil->params->sem_console);
+			printf("%09ld %d died\n", cur_time, phil->pos);
+			sem_post(phil->params->finished);
+		}
+		ft_usleep(1);
+	}
+	return (NULL);
+}
+
 int	philo_life(t_phil *phil)
 {
+	pthread_t	death_thread;
+
+	pthread_create(&death_thread, NULL, check_death, phil);
 	if (phil->pos % 2 != 0)
 		ft_usleep(phil->params->time_to_eat);
 	while (1)
