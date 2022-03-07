@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:36:33 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 15:13:19 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:30:09 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	check_philo_death(t_phil *phil, long cur_time)
 	{
 		sem_wait(phil->params->sem_console);
 		printf("%09ld %d died\n", cur_time, phil->pos);
-		sem_post(phil->params->sem_console);
 		dead = 1;
 	}
 	return (dead);

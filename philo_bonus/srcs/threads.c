@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 15:08:03 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:29:24 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	create_threads(t_phil **philos, t_params *params)
 	{
 		(*philos)[cur].pid = fork();
 		if ((*philos)[cur].pid == 0)
-			return (philo_life(&(*philos)[cur]));
+			return (philo_life(&((*philos)[cur])));
 		cur++;
 	}
 	if (pthread_create(&(params->death_thread), NULL,
