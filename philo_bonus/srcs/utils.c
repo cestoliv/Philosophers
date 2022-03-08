@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:39:17 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 15:09:15 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/07 17:50:46 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	ft_usleep(long int time_in_ms)
 
 void	write_state(char *str, t_phil *phil)
 {
-	long	cur_time;
+	int	cur_time;
 
 	cur_time = get_timestamp() - phil->params->start_time;
 	sem_wait(phil->params->sem_console);
-	printf("%09ld %d %s\n", cur_time, phil->pos, str);
+	ft_printf("%09d %d %s\n", cur_time, phil->pos, str);
 	sem_post(phil->params->sem_console);
 }
 

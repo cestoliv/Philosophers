@@ -12,7 +12,7 @@ LST_SRCS	:=	death.c \
 				forks.c \
 				init.c \
 				main.c \
-				threads.c \
+				process.c \
 				utils.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
 LST_INCS	:=	philosophers.h

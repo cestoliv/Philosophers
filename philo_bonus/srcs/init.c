@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:38:23 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 16:52:40 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:00:57 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ int	create_philos(t_phil **philos, t_params	*params)
 	return (1);
 }
 
+void	init_sem(t_params *params)
+{
+	sem_unlink("/sem_forks");
+	sem_unlink("/sem_console");
+	sem_unlink("/finished");
+	params->sem_forks = sem_open("/sem_forks", O_CREAT, 0644, params->num);
+	params->sem_console = sem_open("/sem_console", O_CREAT, 0644, 1);
+	params->finished = sem_open("/finished", O_CREAT, 0644, 1);
+	sem_unlink("/sem_forks");
+	sem_unlink("/sem_console");
+	sem_unlink("/finished");
+	sem_wait(params->finished);
+}
+
 int	init_params(t_params *params, int argc, char **argv)
 {
 	if (argc < 5)
@@ -65,22 +79,9 @@ int	init_params(t_params *params, int argc, char **argv)
 		if (ft_atoi(argv[5]) < 0)
 			return (0);
 	}
-	params->num_shaved = 0;
 	if (params->num <= 0 || params->time_to_die < 0 || params->time_to_eat < 0
 		|| params->time_to_sleep < 0)
 		return (0);
-	sem_unlink("/sem_forks");
-	sem_unlink("/sem_console");
-	sem_unlink("/sem_num_shaved");
-	sem_unlink("/finished");
-	params->sem_forks = sem_open("/sem_forks", O_CREAT, 0644, params->num);
-	params->sem_console = sem_open("/sem_console", O_CREAT, 0644, 1);
-	params->sem_num_shaved = sem_open("/sem_num_shaved", O_CREAT, 0644, 1);
-	params->finished = sem_open("/finished", O_CREAT, 0644, 1);
-	sem_unlink("/sem_forks");
-	sem_unlink("/sem_console");
-	sem_unlink("/sem_num_shaved");
-	sem_unlink("/finished");
-	sem_wait(params->finished);
+	init_sem(params);
 	return (1);
 }
