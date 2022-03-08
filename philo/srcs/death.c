@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:36:33 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 11:03:34 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/08 09:16:10 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int	stop_threads(t_phil *phil)
 	pthread_mutex_lock(&(phil->params->m_is_dead));
 	phil->params->is_dead = 1;
 	pthread_mutex_unlock(&(phil->params->m_is_dead));
-	pthread_mutex_lock(&(phil->params->m_num_shaved));
-	phil->params->num_shaved = phil->params->num;
-	pthread_mutex_unlock(&(phil->params->m_num_shaved));
 	return (EXIT_FAILURE);
 }
 

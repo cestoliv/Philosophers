@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:24:34 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/03 10:15:10 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/08 09:16:00 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ typedef struct s_params
 	int				meal_max;
 	long			start_time;
 	pthread_mutex_t	console_mutex;
-	int				num_shaved;
-	pthread_mutex_t	m_num_shaved;
 	int				is_dead;
 	pthread_mutex_t	m_is_dead;
 	pthread_t		death_thread;

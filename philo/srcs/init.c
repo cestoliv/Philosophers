@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:38:23 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/03 15:21:20 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/08 09:16:19 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,10 @@ int	init_params(t_params *params, int argc, char **argv)
 			return (0);
 	}
 	params->is_dead = 0;
-	params->num_shaved = 0;
 	if (params->num <= 0 || params->time_to_die < 0 || params->time_to_eat < 0
 		|| params->time_to_sleep < 0)
 		return (0);
 	pthread_mutex_init(&(params->console_mutex), NULL);
 	pthread_mutex_init(&(params->m_is_dead), NULL);
-	pthread_mutex_init(&(params->m_num_shaved), NULL);
 	return (1);
 }
