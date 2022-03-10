@@ -1,8 +1,8 @@
 NAME		:=	philo
 
 CC			:=	clang -Wall -Wextra -Werror
-DEBUG_FLAGS	:=	-g -fsanitize=thread
 FLAGS		:=	-lpthread -Llibft -lft
+#FLAGS		+=	-g -fsanitize=thread
 
 DIR_SRCS	:=	srcs
 DIR_OBJS	:=	.objs
