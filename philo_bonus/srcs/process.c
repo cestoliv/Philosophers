@@ -71,5 +71,6 @@ int	philo_life(t_phil *phil)
 		ft_usleep((phil->params->time_to_die - phil->params->time_to_eat
 				- phil->params->time_to_sleep) / 2);
 	}
+	sem_post(phil->params->finished);
 	return (1);
 }
