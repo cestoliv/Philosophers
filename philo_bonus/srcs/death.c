@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:36:33 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/08 11:29:37 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:00:12 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	stop_process(t_phil **philos, t_params *params)
 	cur = 0;
 	while (cur < params->num)
 		kill((*philos)[cur++].pid, SIGTERM);
-	free(philos);
+	//free(philos);
 	return (EXIT_FAILURE);
 }
 

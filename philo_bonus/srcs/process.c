@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/08 11:33:03 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:00:37 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ int	wait_process(t_phil **philos, t_params *params)
 {
 	int	cur;
 	int	return_code;
-	int	fstatus;
 
 	cur = 0;
 	return_code = 1;
 	while (cur < params->num)
 	{
-		if (waitpid((*philos)[cur].pid, &fstatus, 0) == -1)
+		if (waitpid((*philos)[cur].pid, NULL, 0) == -1)
 			return_code = 0;
 		cur++;
 	}
