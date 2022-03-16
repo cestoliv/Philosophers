@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 10:05:18 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/10 18:31:21 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/16 11:21:45 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	wait_threads(t_phil **philos, t_params *params)
 			return_code = 0;
 		cur++;
 	}
-	if (pthread_join(params->death_thread, NULL))
-		return_code = 0;
 	return (return_code);
 }
 

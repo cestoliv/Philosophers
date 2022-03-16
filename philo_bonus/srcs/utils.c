@@ -6,7 +6,7 @@
 /*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 10:39:17 by ocartier          #+#    #+#             */
-/*   Updated: 2022/03/07 17:50:46 by ocartier         ###   ########.fr       */
+/*   Updated: 2022/03/16 11:38:38 by ocartier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_usleep(long int time_in_ms)
 	start_time = 0;
 	start_time = get_timestamp();
 	while ((get_timestamp() - start_time) < time_in_ms)
-		usleep(100);
+		usleep(1000);
 }
 
 void	write_state(char *str, t_phil *phil)
